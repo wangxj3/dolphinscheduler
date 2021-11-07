@@ -53,6 +53,8 @@ import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -70,6 +72,8 @@ import py4j.GatewayServer;
     })
 })
 public class PythonGatewayServer extends SpringBootServletInitializer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PythonGatewayServer.class);
+
     @Autowired
     private ProcessDefinitionMapper processDefinitionMapper;
 
@@ -179,7 +183,8 @@ public class PythonGatewayServer extends SpringBootServletInitializer {
         long projectCode = project.getCode();
         Map<String, Object> verifyProcessDefinitionExists = processDefinitionService.verifyProcessDefinitionName(user, projectCode, name);
 
-        if (verifyProcessDefinitionExists.get(Constants.STATUS) != Status.SUCCESS) {
+        Status verifyStatus = (Status) verifyProcessDefinitionExists.get(Constants.STATUS);
+        if (verifyStatus == Status.PROCESS_DEFINITION_NAME_EXIST) {
             // update process definition
             ProcessDefinition processDefinition = processDefinitionMapper.queryByDefineName(projectCode, name);
             long processDefinitionCode = processDefinition.getCode();
@@ -188,12 +193,16 @@ public class PythonGatewayServer extends SpringBootServletInitializer {
             Map<String, Object> result = processDefinitionService.updateProcessDefinition(user, projectCode, name, processDefinitionCode, description, globalParams,
                 locations, timeout, tenantCode, taskRelationJson, taskDefinitionJson,executionType);
             return processDefinitionCode;
-        } else {
+        } else if (verifyStatus == Status.SUCCESS) {
             // create process definition
             Map<String, Object> result = processDefinitionService.createProcessDefinition(user, projectCode, name, description, globalParams,
                 locations, timeout, tenantCode, taskRelationJson, taskDefinitionJson,executionType);
             ProcessDefinition processDefinition = (ProcessDefinition) result.get(Constants.DATA_LIST);
             return processDefinition.getCode();
+        } else {
+            String msg = "Verify process definition exists status is invalid, neither SUCCESS or PROCESS_DEFINITION_NAME_EXIST.";
+            LOGGER.error(msg);
+            throw new RuntimeException(msg);
         }
     }
 
