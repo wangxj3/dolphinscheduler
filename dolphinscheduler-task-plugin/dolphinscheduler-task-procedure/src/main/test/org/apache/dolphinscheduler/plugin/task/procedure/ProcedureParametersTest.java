@@ -21,6 +21,7 @@ import org.apache.dolphinscheduler.common.utils.JSONUtils;
 import org.apache.dolphinscheduler.plugin.task.api.enums.DataType;
 import org.apache.dolphinscheduler.plugin.task.api.enums.Direct;
 import org.apache.dolphinscheduler.plugin.task.api.model.Property;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -43,5 +44,6 @@ public class ProcedureParametersTest {
         list.add(property2);
         procedureParameters.setVarPool(JSONUtils.toJsonString(list));
         procedureParameters.dealOutParam4Procedure("path/testNew", "test");
+        Assertions.assertEquals(2, procedureParameters.getVarPool().size());
     }
 }
