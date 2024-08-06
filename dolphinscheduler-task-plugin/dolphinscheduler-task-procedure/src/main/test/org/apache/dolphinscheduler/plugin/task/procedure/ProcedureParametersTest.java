@@ -28,10 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author wangxj
- * @date 2024/8/6 9:37
- */
 public class ProcedureParametersTest {
 
     @Test
