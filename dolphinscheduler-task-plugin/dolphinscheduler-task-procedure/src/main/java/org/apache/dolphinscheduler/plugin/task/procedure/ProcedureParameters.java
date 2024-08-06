@@ -104,9 +104,9 @@ public class ProcedureParameters extends AbstractParameters {
             return;
         }
         properties.get(pop).setValue(String.valueOf(result));
-        if(!varPool.isEmpty()){
-            for(Property info :varPool){
-                if(pop.equals(info.getProp())){
+        if (!varPool.isEmpty()) {
+            for (Property info : varPool) {
+                if (pop.equals(info.getProp())) {
                     varPool.remove(info);
                     break;
                 }
