@@ -40,9 +40,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junitpioneer.jupiter.DisableIfTestFails;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-@DolphinScheduler(composeFiles = {"docker/cluster-test/docker-compose-api.yaml",
-        "docker/cluster-test/docker-compose-master.yaml", "docker/cluster-test/docker-compose-worker.yaml",
-        "docker/cluster-test/docker-compose-zk.yaml"})
+@DolphinScheduler(composeFiles = "docker/cluster-test/docker-compose.yaml")
 @DisableIfTestFails
 public class ClusterShellTaskE2ETest extends BaseWorkflowE2ETest {
 
