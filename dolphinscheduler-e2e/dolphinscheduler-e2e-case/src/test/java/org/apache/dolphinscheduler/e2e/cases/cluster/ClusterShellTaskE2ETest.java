@@ -46,37 +46,46 @@ public class ClusterShellTaskE2ETest extends BaseWorkflowE2ETest {
 
     @BeforeAll
     public static void setup() {
+        System.out.println("-----start setup------");
         browser = WebDriverHolder.getWebDriver();
+        System.out.println("-----start setup1------");
 
         TenantPage tenantPage = new LoginPage(browser)
                 .login(adminUser)
                 .goToNav(SecurityPage.class)
                 .goToTab(TenantPage.class);
+        System.out.println("-----start setup2------");
 
         if (tenantPage.tenants().stream().noneMatch(tenant -> tenant.tenantCode().equals(adminUser.getTenant()))) {
+            System.out.println("-----start setup3------");
             tenantPage
                     .create(adminUser.getTenant())
                     .goToNav(SecurityPage.class)
                     .goToTab(UserPage.class)
                     .update(adminUser);
         }
+        System.out.println("-----start setup4------");
 
         tenantPage
                 .goToNav(ProjectPage.class)
                 .createProjectUntilSuccess(projectName);
+        System.out.println("-----start setup5------");
     }
 
     @Test
     void testRunShellTasks_SuccessCase() {
+        System.out.println("-----start------");
         WorkflowDefinitionTab workflowDefinitionPage =
                 new ProjectPage(browser)
                         .goToNav(ProjectPage.class)
                         .goTo(projectName)
                         .goToTab(WorkflowDefinitionTab.class);
-
+        System.out.println("-----start1------");
         // todo: use yaml to define the workflow
         String workflowName = "SslSuccessCase";
+        System.out.println("-----start2------");
         String taskName = "SslShellSuccess";
+        System.out.println("-----start3------");
         workflowDefinitionPage
                 .createWorkflow()
                 .<ShellTaskForm>addTask(WorkflowForm.TaskType.SHELL)
@@ -87,17 +96,25 @@ public class ClusterShellTaskE2ETest extends BaseWorkflowE2ETest {
                 .submit()
                 .name(workflowName)
                 .submit();
+        System.out.println("-----start4------");
 
         untilWorkflowDefinitionExist(workflowName);
+        System.out.println("-----start5------");
 
         workflowDefinitionPage.publish(workflowName);
+        System.out.println("-----start6------");
 
         runWorkflow(workflowName);
+        System.out.println("-----start7------");
         untilWorkflowInstanceExist(workflowName);
+        System.out.println("-----start8------");
         WorkflowInstanceTab.Row workflowInstance = untilWorkflowInstanceSuccess(workflowName);
+        System.out.println("-----start9------");
         assertThat(workflowInstance.executionTime()).isEqualTo(1);
+        System.out.println("-----start10------");
 
         TaskInstanceTab.Row taskInstance = untilTaskInstanceSuccess(workflowName, taskName);
+        System.out.println("-----start11------");
         assertThat(taskInstance.retryTimes()).isEqualTo(0);
     }
 
