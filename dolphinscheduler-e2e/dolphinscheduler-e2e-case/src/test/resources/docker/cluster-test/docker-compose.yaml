@@ -96,3 +96,5 @@ services:
       retries: 120
     command: [ "/bin/bash", "/opt/dolphinscheduler/worker-server/bin/start.sh" ]
 
+networks:
+  e2e:
