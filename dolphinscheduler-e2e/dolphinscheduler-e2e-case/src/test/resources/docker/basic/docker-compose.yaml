@@ -32,6 +32,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 120
-    command: [ "/bin/bash", "/opt/dolphinscheduler/api-server/bin/start.sh" ]
+
 networks:
   e2e:
