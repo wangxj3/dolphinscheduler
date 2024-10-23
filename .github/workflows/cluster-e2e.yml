@@ -81,7 +81,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven-
       - name: Build Image
         run: |
-          ./mvnw -B clean package -o \
+          ./mvnw -B clean package \
           -Dmaven.test.skip=true \
           -Dspotless.skip=true \
           -Pdocker,staging -Ddocker.tag=ci
