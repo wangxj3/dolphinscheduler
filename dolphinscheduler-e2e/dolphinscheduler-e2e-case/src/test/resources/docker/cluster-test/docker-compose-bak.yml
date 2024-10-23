@@ -34,7 +34,7 @@ services:
       timeout: 60s
       retries: 120
     networks:
-      - dolphinscheduler
+      - e2e
 
   dolphinscheduler-zookeeper:
     image: bitnami/zookeeper:3.7.1
@@ -50,7 +50,7 @@ services:
       timeout: 60s
       retries: 120
     networks:
-      - dolphinscheduler
+      - e2e
 
   dolphinscheduler-schema-initializer:
     image: apache/dolphinscheduler-tools:ci
@@ -65,7 +65,7 @@ services:
       - dolphinscheduler-shared-local:/opt/soft
       - dolphinscheduler-resource-local:/dolphinscheduler
     networks:
-      - dolphinscheduler
+      - e2e
 
   dolphinscheduler-api:
     image: apache/dolphinscheduler-api:ci
@@ -90,7 +90,8 @@ services:
       - ./ssl/cert.crt:/path/cert.crt
       - ./ssl/private.pm:/path/private.pm
     networks:
-      - dolphinscheduler
+      - e2e
+    command: [ "/bin/bash", "/opt/dolphinscheduler/api-server/bin/start.sh" ]
 
   dolphinscheduler-alert:
     image: apache/dolphinscheduler-alert-server:ci
@@ -128,7 +129,7 @@ services:
       - ./ssl/cert.crt:/path/cert.crt
       - ./ssl/private.pm:/path/private.pm
     networks:
-      - dolphinscheduler
+      - e2e
 
   dolphinscheduler-worker:
     image: apache/dolphinscheduler-worker:ci
@@ -151,7 +152,7 @@ services:
       - ./ssl/cert.crt:/path/cert.crt
       - ./ssl/private.pm:/path/private.pm
     networks:
-      - dolphinscheduler
+      - e2e
 
 networks:
   dolphinscheduler:

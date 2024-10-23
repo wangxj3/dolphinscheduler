@@ -1,4 +1,4 @@
-#
+  docker-compose-api.yaml#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -24,14 +24,15 @@ services:
       MASTER_MAX_CPU_LOAD_AVG: 100
       WORKER_TENANT_AUTO_CREATE: 'true'
     ports:
-      - "12345:12345"
+      - "5678:5678"
+      - "5679:5679"
     networks:
       - e2e
     healthcheck:
-      test: [ "CMD", "curl", "http://localhost:12345/dolphinscheduler/actuator/health" ]
+      test: [ "CMD", "curl", "http://localhost:5679/actuator/health" ]
       interval: 5s
       timeout: 5s
       retries: 120
-    command: [ "/bin/bash", "/opt/dolphinscheduler/api-server/bin/start.sh" ]
+    command: [ "/bin/bash", "/opt/dolphinscheduler/master-server/bin/start.sh" ]
 networks:
   e2e:
