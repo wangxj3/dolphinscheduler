@@ -38,12 +38,9 @@ services:
 
   dolphinscheduler-zookeeper:
     image: bitnami/zookeeper:3.7.1
-    profiles: ["all"]
     environment:
       ALLOW_ANONYMOUS_LOGIN: "yes"
       ZOO_4LW_COMMANDS_WHITELIST: srvr,ruok,wchs,cons
-    volumes:
-      - dolphinscheduler-zookeeper:/bitnami/zookeeper
     healthcheck:
       test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/2181"]
       interval: 5s
