@@ -24,6 +24,8 @@ services:
     environment:
       ALLOW_ANONYMOUS_LOGIN: "yes"
       ZOO_4LW_COMMANDS_WHITELIST: srvr,ruok,wchs,cons
+    ports:
+      - "2181:2181"
     volumes:
       - dolphinscheduler-zookeeper:/bitnami/zookeeper
     healthcheck:
@@ -31,9 +33,9 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
-    command: [ "sh","-c","/opt/apache/bootstrap.sh" ]
     networks:
       - e2e
+
   dolphinscheduler-api:
     image: apache/dolphinscheduler-standalone-server:ci
     environment:
