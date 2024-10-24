@@ -46,7 +46,7 @@ services:
       test: [ "CMD", "curl", "http://localhost:12345/dolphinscheduler/actuator/health" ]
       interval: 5s
       timeout: 5s
-      retries: 120
+      retries: 10
     depends_on:
       dolphinscheduler-zookeeper:
         condition: service_completed_successfully
@@ -67,7 +67,7 @@ services:
       test: [ "CMD", "curl", "http://localhost:50053/actuator/health" ]
       interval: 5s
       timeout: 5s
-      retries: 120
+      retries: 10
     depends_on:
       dolphinscheduler-zookeeper:
         condition: service_completed_successfully
@@ -86,7 +86,7 @@ services:
       test: [ "CMD", "curl", "http://localhost:5679/actuator/health" ]
       interval: 5s
       timeout: 5s
-      retries: 120
+      retries: 10
     depends_on:
       dolphinscheduler-zookeeper:
         condition: service_completed_successfully
@@ -106,7 +106,7 @@ services:
       test: [ "CMD", "curl", "http://localhost:1235/actuator/health" ]
       interval: 5s
       timeout: 5s
-      retries: 120
+      retries: 10
     depends_on:
       dolphinscheduler-zookeeper:
         condition: service_completed_successfully
