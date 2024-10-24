@@ -20,7 +20,6 @@ services:
 
   dolphinscheduler-zookeeper:
     image: bitnami/zookeeper:3.7.1
-    profiles: ["all"]
     environment:
       ALLOW_ANONYMOUS_LOGIN: "yes"
       ZOO_4LW_COMMANDS_WHITELIST: srvr,ruok,wchs,cons
@@ -57,7 +56,6 @@ services:
       - dolphinscheduler-shared-local:/opt/soft
       - dolphinscheduler-resource-local:/dolphinscheduler
     command: [ "/bin/bash", "/opt/dolphinscheduler/api-server/bin/start.sh" ]
-
 
   dolphinscheduler-alert:
     image: apache/dolphinscheduler-standalone-server:ci
