@@ -17,24 +17,6 @@
 version: "3.8"
 
 services:
-  dolphinscheduler-postgresql:
-    image: bitnami/postgresql:15.2.0
-    ports:
-      - "5432:5432"
-    profiles: ["all", "schema"]
-    environment:
-      POSTGRESQL_USERNAME: root
-      POSTGRESQL_PASSWORD: root
-      POSTGRESQL_DATABASE: dolphinscheduler
-    volumes:
-      - dolphinscheduler-postgresql:/bitnami/postgresql
-    healthcheck:
-      test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/5432"]
-      interval: 5s
-      timeout: 60s
-      retries: 120
-    networks:
-      - dolphinscheduler
 
   dolphinscheduler-zookeeper:
     image: bitnami/zookeeper:3.7.1
