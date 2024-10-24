@@ -34,7 +34,7 @@ services:
       timeout: 60s
       retries: 120
     networks:
-      - e2e
+      - dolphinscheduler
 
   dolphinscheduler-api:
     image: apache/dolphinscheduler-standalone-server:ci
@@ -47,7 +47,7 @@ services:
       dolphinscheduler-zookeeper:
         condition: service_healthy
     networks:
-      - e2e
+      - dolphinscheduler
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:12345/dolphinscheduler/actuator/health" ]
       interval: 5s
@@ -67,7 +67,7 @@ services:
       dolphinscheduler-zookeeper:
         condition: service_healthy
     networks:
-      - e2e
+      - dolphinscheduler
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:5679/actuator/health" ]
       interval: 5s
@@ -87,7 +87,7 @@ services:
       dolphinscheduler-zookeeper:
         condition: service_healthy
     networks:
-      - e2e
+      - dolphinscheduler
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:1235/actuator/health" ]
       interval: 5s
@@ -95,4 +95,4 @@ services:
       retries: 120
     command: [ "/bin/bash", "/opt/dolphinscheduler/worker-server/bin/start.sh" ]
 networks:
-  e2e:
+  dolphinscheduler:
