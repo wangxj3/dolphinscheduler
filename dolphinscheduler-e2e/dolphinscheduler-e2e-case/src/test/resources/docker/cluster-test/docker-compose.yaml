@@ -31,10 +31,10 @@ services:
       interval: 5s
       timeout: 60s
       retries: 120
-    command: ["sh","-c","/opt/apache/bootstrap.sh"]
+    command: [ "sh","-c","/opt/apache/bootstrap.sh" ]
     networks:
       - e2e
- dolphinscheduler-api:
+  dolphinscheduler-api:
     image: apache/dolphinscheduler-standalone-server:ci
     environment:
       MASTER_MAX_CPU_LOAD_AVG: 100
