@@ -28,13 +28,14 @@ services:
       - "2181:2181"
     volumes:
       - dolphinscheduler-zookeeper:/bitnami/zookeeper
+    networks:
+      - dolphinscheduler
     healthcheck:
       test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/2181" ]
       interval: 5s
       timeout: 60s
       retries: 120
-    networks:
-      - dolphinscheduler
+    command: [ "/bin/bash", "/bitnami/zookeeper/bin/zkServer.sh" ]
 
   dolphinscheduler-api:
     image: apache/dolphinscheduler-standalone-server:ci
