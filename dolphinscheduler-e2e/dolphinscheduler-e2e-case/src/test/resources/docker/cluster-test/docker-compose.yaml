@@ -17,7 +17,6 @@
 version: "3.8"
 
 services:
-
   dolphinscheduler-zookeeper:
     image: bitnami/zookeeper:3.7.1
     environment:
@@ -45,9 +44,9 @@ services:
       - dolphinscheduler
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:12345/dolphinscheduler/actuator/health" ]
-      interval: 30s
+      interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 120
     depends_on:
       dolphinscheduler-zookeeper:
         condition: service_healthy
@@ -62,30 +61,32 @@ services:
     environment:
       MASTER_MAX_CPU_LOAD_AVG: 100
       WORKER_TENANT_AUTO_CREATE: 'true'
+    networks:
+      - dolphinscheduler
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:50053/actuator/health" ]
-      interval: 30s
+      interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 120
     depends_on:
       dolphinscheduler-zookeeper:
         condition: service_healthy
     volumes:
       - dolphinscheduler-logs:/opt/dolphinscheduler/logs
     command: [ "/bin/bash", "/opt/dolphinscheduler/alert-server/bin/start.sh" ]
-    networks:
-      - dolphinscheduler
 
   dolphinscheduler-master:
     image: apache/dolphinscheduler-standalone-server:ci
     environment:
       MASTER_MAX_CPU_LOAD_AVG: 100
       WORKER_TENANT_AUTO_CREATE: 'true'
+    networks:
+      - dolphinscheduler
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:5679/actuator/health" ]
-      interval: 30s
+      interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 120
     depends_on:
       dolphinscheduler-zookeeper:
         condition: service_healthy
@@ -93,19 +94,19 @@ services:
       - dolphinscheduler-logs:/opt/dolphinscheduler/logs
       - dolphinscheduler-shared-local:/opt/soft
     command: [ "/bin/bash", "/opt/dolphinscheduler/master-server/bin/start.sh" ]
-    networks:
-      - dolphinscheduler
 
   dolphinscheduler-worker:
     image: apache/dolphinscheduler-standalone-server:ci
     environment:
       MASTER_MAX_CPU_LOAD_AVG: 100
       WORKER_TENANT_AUTO_CREATE: 'true'
+    networks:
+      - dolphinscheduler
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:1235/actuator/health" ]
-      interval: 30s
+      interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 120
     depends_on:
       dolphinscheduler-zookeeper:
         condition: service_healthy
@@ -115,12 +116,9 @@ services:
       - dolphinscheduler-shared-local:/opt/soft
       - dolphinscheduler-resource-local:/dolphinscheduler
     command: [ "/bin/bash", "/opt/dolphinscheduler/worker-server/bin/start.sh" ]
-    networks:
-      - dolphinscheduler
 
 networks:
   dolphinscheduler:
-    driver: bridge
 
 volumes:
   dolphinscheduler-postgresql:
